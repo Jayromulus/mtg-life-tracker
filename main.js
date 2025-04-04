@@ -14,11 +14,11 @@ const topHealthValues = [20];
 const botHealthValues = [20];
 let tempHealth = 0;
 
-topPlus.addEventListener('click', e => addHealth(e, topHealthValues));
-botPlus.addEventListener('click', e => addHealth(e, botHealthValues));
+topPlus.addEventListener('mousedown', e => addHealth(e, topHealthValues));
+botPlus.addEventListener('mousedown', e => addHealth(e, botHealthValues));
 
-topMinus.addEventListener('click', e => subtractHealth(e, topHealthValues));
-botMinus.addEventListener('click', e => subtractHealth(e, botHealthValues));
+topMinus.addEventListener('mousedown', e => subtractHealth(e, topHealthValues));
+botMinus.addEventListener('mousedown', e => subtractHealth(e, botHealthValues));
 
 const updateTimer = {
 	start(newHealth, target) {
