@@ -20,6 +20,7 @@ botPlus.addEventListener('mousedown', e => addHealth(e, botHealthValues));
 topMinus.addEventListener('mousedown', e => subtractHealth(e, topHealthValues));
 botMinus.addEventListener('mousedown', e => subtractHealth(e, botHealthValues));
 
+// might make duplicate items for the timer, tempHealth, and take in an extra argument to allow top and bottom healths to be changed simultaniously as well as remove a bug where starting to edit bottom health and then pressing a change for top health will append all changes to only the top health, and vice versa
 const updateTimer = {
 	start(newHealth, target) {
 		if(typeof this.timeoutId === 'number') {
@@ -37,10 +38,6 @@ const updateTimer = {
 	},
 	cancel() {
 		clearTimeout(this.timeoutId);
-	},
-	reset() {
-		this.cancel();
-		this.start();
 	}
 }
 
