@@ -6,7 +6,7 @@ html, body {
 	width: 100vw;
 	overflow: hidden;
 
-	font-family: "Arial Rounded MT Bold", sans-serif, cursive;
+	/* font-family: "Arial Rounded MT Bold", sans-serif, cursive; */
 	color: #f3f3f3;
 
 	display: flex;
