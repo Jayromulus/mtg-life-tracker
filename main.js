@@ -43,6 +43,7 @@ const updateTimer = {
 
 function addHealth(e, target) {
 	if(tempHealth === 0) tempHealth = target[0];
+	// add something on the page to show how much the health is changing (display temphealth in the center of the screen) so the user can see what is changing before it happens, helping keep the history clean
 	tempHealth += 1;
 	updateTimer.start(tempHealth, target);
 }
