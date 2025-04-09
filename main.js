@@ -44,7 +44,7 @@ const topUpdateTimer = {
 
 				updateHealthDisplay();
 			},
-			625
+			750
 		);
 	},
 	cancel() {
@@ -68,7 +68,7 @@ const botUpdateTimer = {
 
 				updateHealthDisplay();
 			},
-			625
+			750
 		);
 	},
 	cancel() {
