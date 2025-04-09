@@ -63,7 +63,7 @@ html, body {
 	height: 100%;
 }
 
-#top {
+#top, #top-health-change {
 	transform: rotate(180deg);
 	-webkit-transform: rotate(180deg);
 	-moz-transform: rotate(180deg);
