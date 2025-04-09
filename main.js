@@ -129,7 +129,9 @@ function updateHealthDisplay() {
 function replaceHistory(values, display) {
 	const list = [];
 	values.forEach((value, index) => {
-		if (index > 2) {
+		if (index > 9) {
+			return;
+		} else if (index > 2) {
 			list.push(`<span style="opacity: ${1 - index * .07}">${value}</span>`);
 		} else {
 			list.push(`<span style="font-size: ${healthFontSize[index]}; opacity: ${1 - index * .1}">${value}</span>`);
