@@ -8,7 +8,8 @@ const topMinus = document.getElementById('top-minus');
 const topPlus = document.getElementById('top-plus');
 const botMinus = document.getElementById('bottom-minus');
 const botPlus = document.getElementById('bottom-plus');
-const healthFontSize = ['30pt', '26pt', '22pt'];
+const centerDisplay = document.getElementById('center');
+const healthFontSize = ['30pt', '24pt', '19pt'];
 
 const topHealthValues = [20];
 const botHealthValues = [20];
@@ -32,6 +33,8 @@ const updateTimer = {
 				target.unshift(newHealth);
 				updateHealthDisplay();
 				tempHealth = 0;
+				centerDisplay.style.color = '#2e2e2e';
+				centerDisplay.innerText = 'placeholder';
 			},
 			750
 		);
@@ -45,12 +48,16 @@ function addHealth(e, target) {
 	if(tempHealth === 0) tempHealth = target[0];
 	// add something on the page to show how much the health is changing (display temphealth in the center of the screen) so the user can see what is changing before it happens, helping keep the history clean
 	tempHealth += 1;
+	centerDisplay.style.color = '#f3f3f3';
+	centerDisplay.innerText = `+${Math.abs(target[0] - tempHealth)}`;
 	updateTimer.start(tempHealth, target);
 }
 
 function subtractHealth(e, target) {
 	if(tempHealth === 0) tempHealth = target[0];
 	tempHealth -= 1;
+	centerDisplay.style.color = '#f3f3f3';
+	centerDisplay.innerText = `-${Math.abs(target[0] - tempHealth)}`;
 	updateTimer.start(tempHealth, target);
 }
 
@@ -61,7 +68,7 @@ function updateHealthDisplay() {
 	if(topHealthValues.length > 1) {
 		replaceHistory(topHealthValues.slice(1), topHealthLog);
 	} else {
-		topHealthLog.innerHTML = `<spane style="font-size: 30pt; color: #2e2e2e">holding space</span>`;
+		topHealthLog.innerHTML = `<span style="font-size: 30pt; color: #2e2e2e">holding space</span>`;
 	}
 
 	if(botHealthValues.length > 1) {
