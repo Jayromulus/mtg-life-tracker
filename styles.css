@@ -21,7 +21,18 @@ html, body {
 	font-size: 20pt;
 	width: 100%;
 	text-align: center;
+
+	display: grid;
+	grid-template-columns: 1fr 4fr 4fr 1fr;
+}
+
+#reset {
+	margin: auto;
+}
+
+#top-health-change, #bot-health-change {
 	color: #2e2e2e;
+	font-weight: 600;
 }
 
 #top, #bottom {

@@ -8,12 +8,16 @@ const topMinus = document.getElementById('top-minus');
 const topPlus = document.getElementById('top-plus');
 const botMinus = document.getElementById('bottom-minus');
 const botPlus = document.getElementById('bottom-plus');
-const centerDisplay = document.getElementById('center');
+const resetGameBtn = document.getElementById('reset');
+const topHealthChange = document.getElementById('top-health-change');
+const botHealthChange = document.getElementById('bot-health-change');
 const healthFontSize = ['30pt', '24pt', '19pt'];
 
 const topHealthValues = [20];
 const botHealthValues = [20];
 let tempHealth = 0;
+
+reset.addEventListener('mousedown', e => resetGame(e));
 
 topPlus.addEventListener('mousedown', e => addHealth(e, topHealthValues));
 botPlus.addEventListener('mousedown', e => addHealth(e, botHealthValues));
@@ -33,10 +37,10 @@ const updateTimer = {
 				target.unshift(newHealth);
 				updateHealthDisplay();
 				tempHealth = 0;
-				centerDisplay.style.color = '#2e2e2e';
-				centerDisplay.innerText = 'placeholder';
+				botHealthChange.style.color = '#2e2e2e';
+				botHealthChange.innerText = 'placeholder';
 			},
-			750
+			625
 		);
 	},
 	cancel() {
@@ -48,16 +52,16 @@ function addHealth(e, target) {
 	if(tempHealth === 0) tempHealth = target[0];
 	// add something on the page to show how much the health is changing (display temphealth in the center of the screen) so the user can see what is changing before it happens, helping keep the history clean
 	tempHealth += 1;
-	centerDisplay.style.color = '#f3f3f3';
-	centerDisplay.innerText = `+${Math.abs(target[0] - tempHealth)}`;
+	botHealthChange.style.color = '#f3f3f3';
+	botHealthChange.innerText = `+${Math.abs(target[0] - tempHealth)}`;
 	updateTimer.start(tempHealth, target);
 }
 
 function subtractHealth(e, target) {
 	if(tempHealth === 0) tempHealth = target[0];
 	tempHealth -= 1;
-	centerDisplay.style.color = '#f3f3f3';
-	centerDisplay.innerText = `-${Math.abs(target[0] - tempHealth)}`;
+	botHealthChange.style.color = '#f3f3f3';
+	botHealthChange.innerText = `-${Math.abs(target[0] - tempHealth)}`;
 	updateTimer.start(tempHealth, target);
 }
 
@@ -89,6 +93,24 @@ function replaceHistory(values, display) {
 	});
 
 	display.innerHTML = list.join(' ');
+}
+
+function resetGame(e) {
+	e.preventDefault();
+
+	while(topHealthValues[0]) {
+		topHealthValues.pop();
+	}
+
+	while (botHealthValues[0]) {
+		botHealthValues.pop();
+	}
+
+	tempHealth = 0;
+	topHealthValues.push(20);
+	botHealthValues.push(20);
+
+	updateHealthDisplay();
 }
 
 updateHealthDisplay();
