@@ -13,8 +13,8 @@ const topHealthChange = document.getElementById('top-health-change');
 const botHealthChange = document.getElementById('bot-health-change');
 const healthFontSize = ['30pt', '24pt', '19pt'];
 
-const topHealthValues = [20];
-const botHealthValues = [20];
+let topHealthValues = [20];
+let botHealthValues = [20];
 let tempHealthTop = 0;
 let tempHealthBot = 0;
 let topUpdated = false;
@@ -27,7 +27,6 @@ botPlus.addEventListener('mousedown', e => addHealth(e, botHealthValues, false))
 topMinus.addEventListener('mousedown', e => subtractHealth(e, topHealthValues, true));
 botMinus.addEventListener('mousedown', e => subtractHealth(e, botHealthValues, false));
 
-// might make duplicate items for the timer, tempHealth, and take in an extra argument to allow top and bottom healths to be changed simultaniously as well as remove a bug where starting to edit bottom health and then pressing a change for top health will append all changes to only the top health, and vice versa
 const topUpdateTimer = {
 	start(newHealth, newHealthChange, target) {
 		if (typeof this.timeoutId === 'number') {
@@ -110,35 +109,60 @@ function subtractHealth(e, target, updateTop) {
 }
 
 function updateHealthDisplay() {
+  log({top: topHealthValues});
 	topHealth.innerText = topHealthValues[0];
 	botHealth.innerText = botHealthValues[0];
 	
 	if (topHealthValues.length > 1) {
-		replaceHistory(topHealthValues.slice(1), topHealthLog);
+		replaceHistory(topHealthValues.slice(1), topHealthLog, true);
 	} else {
 		topHealthLog.innerHTML = `<span style="font-size: 30pt; color: #2e2e2e">holding space</span>`;
 	}
 
 	if (botHealthValues.length > 1) {
-		replaceHistory(botHealthValues.slice(1), botHealthLog);
+		replaceHistory(botHealthValues.slice(1), botHealthLog, false);
 	} else {
 		botHealthLog.innerHTML = `<span style="font-size: 30pt; color: #2e2e2e">holding space</span>`;
 	}
 }
 
-function replaceHistory(values, display) {
-	const list = [];
+function replaceHistory(values, display, topPlayer) {
+  display.innerHTML = '';
+
 	values.forEach((value, index) => {
 		if (index > 9) {
 			return;
 		} else if (index > 2) {
-			list.push(`<span style="opacity: ${1 - index * .07}">${value}</span>`);
+      const healthIcon = document.createElement('span');
+      healthIcon.style.opacity = 1 - index * .07;
+      healthIcon.innerText = value;
+      healthIcon.style.padding = '0 5px';
+
+      healthIcon.addEventListener('mousedown', () => restoreHealth(index, topPlayer))
+
+			display.appendChild(healthIcon);
 		} else {
-			list.push(`<span style="font-size: ${healthFontSize[index]}; opacity: ${1 - index * .1}">${value}</span>`);
+      const healthIcon = document.createElement('span');
+      healthIcon.style.opacity = 1 - index * .07;
+      healthIcon.style.fontSize = healthFontSize[index];
+      healthIcon.innerText = value;
+      healthIcon.style.padding = '0 5px';
+
+      healthIcon.addEventListener('mousedown', () => restoreHealth(index, topPlayer))
+
+			display.appendChild(healthIcon);
 		}
 	});
+}
 
-	display.innerHTML = list.join(' ');
+function restoreHealth(index, player) {
+  if (player) {
+    topHealthValues = topHealthValues.splice(index + 1);
+  } else {
+    botHealthValues = botHealthValues.splice(index + 1);
+  }
+
+  updateHealthDisplay()
 }
 
 function resetGame(e) {
