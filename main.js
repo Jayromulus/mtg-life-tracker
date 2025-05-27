@@ -89,7 +89,7 @@ function addHealth(e, target, updateTop) {
 		botHealthChange.style.color = '#f3f3f3';
 		botHealthChange.innerText = `+${Math.abs(target[0] - tempHealthBot)}`;
 		botUpdateTimer.start(tempHealthBot, botHealthChange, target);
-	}	
+	}
 }
 
 function subtractHealth(e, target, updateTop) {
@@ -116,13 +116,13 @@ function updateHealthDisplay() {
 	if (topHealthValues.length > 1) {
 		replaceHistory(topHealthValues.slice(1), topHealthLog, true);
 	} else {
-		topHealthLog.innerHTML = `<span style="font-size: 30pt; color: #2e2e2e">holding space</span>`;
+		topHealthLog.innerHTML = `<span style="font-size: 30pt; color: #2e2e2e">20</span>`;
 	}
 
 	if (botHealthValues.length > 1) {
 		replaceHistory(botHealthValues.slice(1), botHealthLog, false);
 	} else {
-		botHealthLog.innerHTML = `<span style="font-size: 30pt; color: #2e2e2e">holding space</span>`;
+		botHealthLog.innerHTML = `<span style="font-size: 30pt; color: #2e2e2e">20</span>`;
 	}
 }
 
