@@ -18,8 +18,8 @@
 <body>
 	<div id="main">
 		<div id="top">
-			<div id="top-health-slug">
-				<p id="top-minus">-</p>
+      <div id="top-health-slug">
+        <p id="top-minus">-</p>
 				<p class="current-health" id="top-health">18</p>
 				<p id="top-plus">+</p>
 			</div>
@@ -28,8 +28,8 @@
 
 		<div id="center">
 			<div id="reset"><i class="fa fa-refresh"></i></div>
-			<div id="top-health-change">test top</div>
-			<div id="bot-health-change">test bot</div>
+			<div id="top-health-change">0</div>
+			<div id="bot-health-change">0</div>
 		</div>
 
 		<div id="bottom">
@@ -41,6 +41,17 @@
 			<div class="health-log" id="bottom-log">0</div>
 		</div>
 	</div>
+
+  <div id="top-health-confirm">
+    <h2>top health confirm revert?</h2>
+    <button id="confirm-top-revert"><img src="./assets/check.png" alt="confirm-top"></button>
+    <button id="cancel-top-revert"><img src="./assets/cross.png" alt="cancel-top"></button>
+  </div>
+  <div id="bot-health-confirm">
+    <h2>bot health confirm revert?</h2>
+    <button id="confirm-bot-revert"><img src="./assets/check.png" alt="confirm-bot"></button>
+    <button id="cancel-bot-revert"><img src="./assets/cross.png" alt="cancel-bot"></button>
+  </div>
 
 	<script src="./main.js"></script>
 </body>

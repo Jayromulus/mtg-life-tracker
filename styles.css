@@ -59,7 +59,7 @@ html, body {
 	height: 100%;
 }
 
-#top, #top-health-change {
+#top, #top-health-change, #top-health-confirm {
 	transform: rotate(180deg);
 	-webkit-transform: rotate(180deg);
 	-moz-transform: rotate(180deg);
@@ -86,4 +86,55 @@ html, body {
 .health-log * {
 	margin: 0 auto;
 	line-height: 100%;
+}
+
+#top-health-confirm, #bot-health-confirm {
+  height: 40%;
+
+  position: absolute;
+  z-index: 2;
+  left: 10%;
+  right: 10%;
+
+  background-color: #ffffffc0;
+  border-radius: 5px;
+  
+  display: grid;
+  grid-template-columns: auto auto;
+
+  visibility: hidden;
+
+  color: #1e3050;
+  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 16pt;
+}
+
+#top-health-confirm {
+  top: 5%;
+}
+
+#bot-health-confirm {
+  bottom: 5%;
+}
+
+#top-health-confirm h2, #bot-health-confirm h2 {
+  align-content: center;
+  text-align: center;
+  
+  margin: 20% 5% 5%;
+
+  grid-column: span 2;
+}
+
+#confirm-top-revert, #cancel-top-revert, #confirm-bot-revert, #cancel-bot-revert {
+  margin: 10% 30% 30%;
+
+  border: none;
+  border-radius: 5px;
+
+  background: transparent;
+}
+
+#confirm-top-revert img, #cancel-top-revert img, #confirm-bot-revert img, #cancel-bot-revert img {
+  width: 100%;
 }

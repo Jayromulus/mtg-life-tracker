@@ -11,6 +11,12 @@ const botPlus = document.getElementById('bottom-plus');
 const resetGameBtn = document.getElementById('reset');
 const topHealthChange = document.getElementById('top-health-change');
 const botHealthChange = document.getElementById('bot-health-change');
+const topHealthRevert = document.getElementById('top-health-confirm');
+const topHealthConfirm = document.getElementById('confirm-top-revert');
+const topHealthCancel = document.getElementById('cancel-top-revert');
+const botHealthRevert = document.getElementById('bot-health-confirm');
+const botHealthConfirm = document.getElementById('confirm-bot-revert');
+const botHealthCancel = document.getElementById('cancel-bot-revert');
 const healthFontSize = ['30pt', '24pt', '19pt'];
 
 let topHealthValues = [20];
@@ -28,7 +34,7 @@ topMinus.addEventListener('mousedown', e => subtractHealth(e, topHealthValues, t
 botMinus.addEventListener('mousedown', e => subtractHealth(e, botHealthValues, false));
 
 const topUpdateTimer = {
-	start(newHealth, newHealthChange, target) {
+	start(newHealth, target) {
 		if (typeof this.timeoutId === 'number') {
 			this.cancel();
 		}
@@ -52,7 +58,7 @@ const topUpdateTimer = {
 }
 
 const botUpdateTimer = {
-	start(newHealth, newHealthChange, target) {
+	start(newHealth, target) {
 		if (typeof this.timeoutId === 'number') {
 			this.cancel();
 		}
@@ -82,13 +88,13 @@ function addHealth(e, target, updateTop) {
 		tempHealthTop += 1;
 		topHealthChange.style.color = '#f3f3f3';
 		topHealthChange.innerText = `+${Math.abs(target[0] - tempHealthTop)}`;
-		topUpdateTimer.start(tempHealthTop, topHealthChange, target);	
+		topUpdateTimer.start(tempHealthTop, target);	
 	} else {
 		if (tempHealthBot === 0) tempHealthBot = target[0];
 		tempHealthBot += 1;
 		botHealthChange.style.color = '#f3f3f3';
 		botHealthChange.innerText = `+${Math.abs(target[0] - tempHealthBot)}`;
-		botUpdateTimer.start(tempHealthBot, botHealthChange, target);
+		botUpdateTimer.start(tempHealthBot, target);
 	}
 }
 
@@ -98,13 +104,13 @@ function subtractHealth(e, target, updateTop) {
 		tempHealthTop -= 1;
 		topHealthChange.style.color = '#f3f3f3';
 		topHealthChange.innerText = `-${Math.abs(target[0] - tempHealthTop)}`;
-		topUpdateTimer.start(tempHealthTop, topHealthChange, target);
+		topUpdateTimer.start(tempHealthTop, target);
 	} else {
 		if (tempHealthBot === 0) tempHealthBot = target[0];
 		tempHealthBot -= 1;
 		botHealthChange.style.color = '#f3f3f3';
 		botHealthChange.innerText = `-${Math.abs(target[0] - tempHealthBot)}`;
-		botUpdateTimer.start(tempHealthBot, topHealthChange, target);
+		botUpdateTimer.start(tempHealthBot, target);
 	}
 }
 
@@ -138,7 +144,7 @@ function replaceHistory(values, display, topPlayer) {
       healthIcon.innerText = value;
       healthIcon.style.padding = '0 5px';
 
-      healthIcon.addEventListener('mousedown', () => restoreHealth(index, topPlayer))
+      healthIcon.addEventListener('mousedown', () => restoreHealth(index, topPlayer));
 
 			display.appendChild(healthIcon);
 		} else {
@@ -148,21 +154,39 @@ function replaceHistory(values, display, topPlayer) {
       healthIcon.innerText = value;
       healthIcon.style.padding = '0 5px';
 
-      healthIcon.addEventListener('mousedown', () => restoreHealth(index, topPlayer))
+      healthIcon.addEventListener('mousedown', () => restoreHealth(index, topPlayer));
 
 			display.appendChild(healthIcon);
 		}
 	});
 }
 
-function restoreHealth(index, player) {
-  if (player) {
+function restoreHealth(index, topPlayer) {
+  const updateTop = () => {
     topHealthValues = topHealthValues.splice(index + 1);
-  } else {
-    botHealthValues = botHealthValues.splice(index + 1);
+    topHealthRevert.style.visibility = 'hidden';
+    topHealthConfirm.removeEventListener('mousedown', updateTop);
+    updateHealthDisplay();
   }
 
-  updateHealthDisplay()
+  const updateBot = () => {
+    botHealthValues = botHealthValues.splice(index + 1);
+    botHealthRevert.style.visibility = 'hidden';
+    botHealthConfirm.removeEventListener('mousedown', updateBot);
+    updateHealthDisplay();
+  }
+
+  if (topPlayer) {
+    topHealthRevert.children[0].innerText = `Revert player's health to: ${topHealthValues[index+1]}?`;
+    topHealthRevert.style.visibility = 'visible';
+    topHealthConfirm.addEventListener('mousedown', updateTop);
+    topHealthCancel.addEventListener('mousedown', () => topHealthRevert.style.visibility = 'hidden');
+  } else {
+    botHealthRevert.children[0].innerText = `Revert player's health to: ${botHealthValues[index+1]}?`;
+    botHealthRevert.style.visibility = 'visible';
+    botHealthConfirm.addEventListener('mousedown', updateBot);
+    botHealthCancel.addEventListener('mousedown', () => botHealthRevert.style.visibility = 'hidden');
+  }
 }
 
 function resetGame(e) {
@@ -179,6 +203,9 @@ function resetGame(e) {
 	tempHealth = 0;
 	topHealthValues.push(20);
 	botHealthValues.push(20);
+
+  topHealthRevert.style.visibility = 'hidden';
+  botHealthRevert.style.visibility = 'hidden';
 
 	updateHealthDisplay();
 }
