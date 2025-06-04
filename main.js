@@ -84,14 +84,17 @@ function addHealth(e, target, updateTop) {
 		topUpdated = false;
 		if (tempHealthTop === 0) tempHealthTop = target[0];
 		tempHealthTop += 1;
+    // let change = target[0] - tempHealthTop
 		topHealthChange.style.color = '#f3f3f3';
-		topHealthChange.innerText = `+${Math.abs(target[0] - tempHealthTop)}`;
+    let change = tempHealthTop - target[0];
+		topHealthChange.innerText = `${change > 0 ? '+' : ''}${change}`;
 		topUpdateTimer.start(tempHealthTop, target);	
 	} else {
 		if (tempHealthBot === 0) tempHealthBot = target[0];
 		tempHealthBot += 1;
 		botHealthChange.style.color = '#f3f3f3';
-		botHealthChange.innerText = `+${Math.abs(target[0] - tempHealthBot)}`;
+    let change = tempHealthBot - target[0];
+		botHealthChange.innerText = `${change > 0 ? '+' : ''}${change}`;
 		botUpdateTimer.start(tempHealthBot, target);
 	}
 }
@@ -101,13 +104,15 @@ function subtractHealth(e, target, updateTop) {
 		if (tempHealthTop === 0) tempHealthTop = target[0];
 		tempHealthTop -= 1;
 		topHealthChange.style.color = '#f3f3f3';
-		topHealthChange.innerText = `-${Math.abs(target[0] - tempHealthTop)}`;
+    let change = tempHealthTop - target[0];
+		topHealthChange.innerText = `${change > 0 ? '+' : ''}${change}`;
 		topUpdateTimer.start(tempHealthTop, target);
 	} else {
 		if (tempHealthBot === 0) tempHealthBot = target[0];
 		tempHealthBot -= 1;
 		botHealthChange.style.color = '#f3f3f3';
-		botHealthChange.innerText = `-${Math.abs(target[0] - tempHealthBot)}`;
+		let change = tempHealthBot - target[0];
+		botHealthChange.innerText = `${change > 0 ? '+' : ''}${change}`;
 		botUpdateTimer.start(tempHealthBot, target);
 	}
 }
