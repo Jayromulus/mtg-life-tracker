@@ -79,6 +79,23 @@ const botUpdateTimer = {
 	}
 }
 
+function updateHealthDisplay() {
+	topHealth.innerText = topHealthValues[0];
+	botHealth.innerText = botHealthValues[0];
+	
+	if (topHealthValues.length > 1) {
+		replaceHistory(topHealthValues.slice(1), topHealthLog, true);
+	} else {
+		topHealthLog.innerHTML = `<span style="font-size: 30pt; color: #2e2e2e">20</span>`;
+	}
+
+	if (botHealthValues.length > 1) {
+		replaceHistory(botHealthValues.slice(1), botHealthLog, false);
+	} else {
+		botHealthLog.innerHTML = `<span style="font-size: 30pt; color: #2e2e2e">20</span>`;
+	}
+}
+
 function addHealth(e, target, updateTop) {
 	if (updateTop) {
 		topUpdated = false;
@@ -117,27 +134,8 @@ function subtractHealth(e, target, updateTop) {
 	}
 }
 
-function updateHealthDisplay() {
-	topHealth.innerText = topHealthValues[0];
-	botHealth.innerText = botHealthValues[0];
-	
-	if (topHealthValues.length > 1) {
-		replaceHistory(topHealthValues.slice(1), topHealthLog, true);
-	} else {
-		topHealthLog.innerHTML = `<span style="font-size: 30pt; color: #2e2e2e">20</span>`;
-	}
-
-	if (botHealthValues.length > 1) {
-		replaceHistory(botHealthValues.slice(1), botHealthLog, false);
-	} else {
-		botHealthLog.innerHTML = `<span style="font-size: 30pt; color: #2e2e2e">20</span>`;
-	}
-}
-
 function replaceHistory(values, display, topPlayer) {
   display.innerHTML = '';
-  
-  // log({ values })
   
 	values.forEach((value, index) => {
     const healthIcon = document.createElement('span');
@@ -232,6 +230,8 @@ function restoreHealthBot(index) {
   botHealthRevert.classList.toggle('hidden');
 }
 
+//? add a method for both players to need to confirm a game reset
+//! after resetting you cannot click previous health to revert
 function resetGame(e) {
 	e.preventDefault();
 
@@ -247,8 +247,8 @@ function resetGame(e) {
 	topHealthValues.push(20);
 	botHealthValues.push(20);
 
-  topHealthRevert.style.visibility = 'hidden';
-  botHealthRevert.style.visibility = 'hidden';
+  topHealthRevert.classList.contains('hidden') ?? topHealthRevert.classList.toggle('hidden');
+  botHealthRevert.classList.contains('hidden') ?? botHealthRevert.classList.toggle('hidden');
 
 	updateHealthDisplay();
 }
