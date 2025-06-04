@@ -23,6 +23,10 @@ let topHealthValues = [20];
 let botHealthValues = [20];
 let tempHealthTop = 0;
 let tempHealthBot = 0;
+let botHealthRevertConfirmed = 0;
+let botHealthRevertCancelled = 0;
+let lastChangedTopIndex = 0;
+let lastChangedBotIndex = 0;
 let topUpdated = false;
 
 reset.addEventListener('mousedown', e => resetGame(e));
@@ -115,7 +119,8 @@ function subtractHealth(e, target, updateTop) {
 }
 
 function updateHealthDisplay() {
-  log({top: topHealthValues});
+  [botHealthRevertConfirmed, botHealthRevertCancelled] = [0, 0];
+
 	topHealth.innerText = topHealthValues[0];
 	botHealth.innerText = botHealthValues[0];
 	
@@ -134,25 +139,24 @@ function updateHealthDisplay() {
 
 function replaceHistory(values, display, topPlayer) {
   display.innerHTML = '';
-
+  
+  log({ values })
+  
 	values.forEach((value, index) => {
+    const healthIcon = document.createElement('span');
+
+    healthIcon.style.opacity = 1 - index * .07;
+    healthIcon.innerText = value;
+    healthIcon.style.padding = '0 5px';
+
 		if (index > 9) {
 			return;
 		} else if (index > 2) {
-      const healthIcon = document.createElement('span');
-      healthIcon.style.opacity = 1 - index * .07;
-      healthIcon.innerText = value;
-      healthIcon.style.padding = '0 5px';
-
       healthIcon.addEventListener('mousedown', () => restoreHealth(index, topPlayer));
 
 			display.appendChild(healthIcon);
 		} else {
-      const healthIcon = document.createElement('span');
-      healthIcon.style.opacity = 1 - index * .07;
       healthIcon.style.fontSize = healthFontSize[index];
-      healthIcon.innerText = value;
-      healthIcon.style.padding = '0 5px';
 
       healthIcon.addEventListener('mousedown', () => restoreHealth(index, topPlayer));
 
@@ -162,30 +166,52 @@ function replaceHistory(values, display, topPlayer) {
 }
 
 function restoreHealth(index, topPlayer) {
-  const updateTop = () => {
-    topHealthValues = topHealthValues.splice(index + 1);
+  // const healthRevert = document.createElement('div');
+  // const revertConfirmMessage = document.createElement('h2');
+  // const confirmRevert = document.createElement('button');
+  // const cancelRevert = document.createElement('button');
+
+  const target = index + 1;
+  log({ target })
+
+  function updateTop() {
+    topHealthValues = topHealthValues.splice(target);
     topHealthRevert.style.visibility = 'hidden';
-    topHealthConfirm.removeEventListener('mousedown', updateTop);
     updateHealthDisplay();
   }
 
-  const updateBot = () => {
-    botHealthValues = botHealthValues.splice(index + 1);
+  function updateBot() {
+    botHealthRevertConfirmed++;
+    lastChangedBotIndex = target;
     botHealthRevert.style.visibility = 'hidden';
     botHealthConfirm.removeEventListener('mousedown', updateBot);
-    updateHealthDisplay();
+    botHealthCancel.removeEventListener('mousedown', cancelBot);
+    if (botHealthRevertConfirmed === botHealthRevertCancelled && (botHealthRevertCancelled === 0 && botHealthRevertConfirmed !== 0)) {
+      log('confirm more than cancel');
+      botHealthValues = botHealthValues.splice(lastChangedBotIndex);
+      updateHealthDisplay();
+    } else {
+      log('cancel more');
+    }
+  }
+
+  function cancelBot() {
+    botHealthRevertCancelled++;
+    botHealthRevert.style.visibility = 'hidden';
+    botHealthRevert.removeEventListener('mousedown', updateBot);
+    botHealthCancel.removeEventListener('mousedown', cancelBot);
   }
 
   if (topPlayer) {
-    topHealthRevert.children[0].innerText = `Revert player's health to: ${topHealthValues[index+1]}?`;
+    topHealthRevert.children[0].innerText = `Revert player's health to: ${topHealthValues[target]}?`;
     topHealthRevert.style.visibility = 'visible';
     topHealthConfirm.addEventListener('mousedown', updateTop);
     topHealthCancel.addEventListener('mousedown', () => topHealthRevert.style.visibility = 'hidden');
   } else {
-    botHealthRevert.children[0].innerText = `Revert player's health to: ${botHealthValues[index+1]}?`;
+    botHealthRevert.children[0].innerText = `Revert player's health to: ${botHealthValues[target]}?`;
     botHealthRevert.style.visibility = 'visible';
     botHealthConfirm.addEventListener('mousedown', updateBot);
-    botHealthCancel.addEventListener('mousedown', () => botHealthRevert.style.visibility = 'hidden');
+    botHealthCancel.addEventListener('mousedown', cancelBot);
   }
 }
 
