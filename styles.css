@@ -88,6 +88,10 @@ html, body {
 	line-height: 100%;
 }
 
+.hidden {
+  visibility: hidden;
+}
+
 #top-health-confirm, #bot-health-confirm {
   height: 40%;
 
@@ -101,8 +105,6 @@ html, body {
   
   display: grid;
   grid-template-columns: auto auto;
-
-  visibility: hidden;
 
   color: #1e3050;
   font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;

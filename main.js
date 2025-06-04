@@ -12,19 +12,19 @@ const resetGameBtn = document.getElementById('reset');
 const topHealthChange = document.getElementById('top-health-change');
 const botHealthChange = document.getElementById('bot-health-change');
 const topHealthRevert = document.getElementById('top-health-confirm');
-const topHealthConfirm = document.getElementById('confirm-top-revert');
-const topHealthCancel = document.getElementById('cancel-top-revert');
+// const topHealthConfirm = document.getElementById('confirm-top-revert');
+// const topHealthCancel = document.getElementById('cancel-top-revert');
 const botHealthRevert = document.getElementById('bot-health-confirm');
-const botHealthConfirm = document.getElementById('confirm-bot-revert');
-const botHealthCancel = document.getElementById('cancel-bot-revert');
+// const botHealthConfirm = document.getElementById('confirm-bot-revert');
+// const botHealthCancel = document.getElementById('cancel-bot-revert');
 const healthFontSize = ['30pt', '24pt', '19pt'];
 
 let topHealthValues = [20];
 let botHealthValues = [20];
 let tempHealthTop = 0;
 let tempHealthBot = 0;
-let botHealthRevertConfirmed = 0;
-let botHealthRevertCancelled = 0;
+// let botHealthRevertConfirmed = 0;
+// let botHealthRevertCancelled = 0;
 let lastChangedTopIndex = 0;
 let lastChangedBotIndex = 0;
 let topUpdated = false;
@@ -119,8 +119,6 @@ function subtractHealth(e, target, updateTop) {
 }
 
 function updateHealthDisplay() {
-  [botHealthRevertConfirmed, botHealthRevertCancelled] = [0, 0];
-
 	topHealth.innerText = topHealthValues[0];
 	botHealth.innerText = botHealthValues[0];
 	
@@ -140,7 +138,7 @@ function updateHealthDisplay() {
 function replaceHistory(values, display, topPlayer) {
   display.innerHTML = '';
   
-  log({ values })
+  // log({ values })
   
 	values.forEach((value, index) => {
     const healthIcon = document.createElement('span');
@@ -152,67 +150,87 @@ function replaceHistory(values, display, topPlayer) {
 		if (index > 9) {
 			return;
 		} else if (index > 2) {
-      healthIcon.addEventListener('mousedown', () => restoreHealth(index, topPlayer));
+      healthIcon.addEventListener('mousedown', () => topPlayer ? restoreHealthTop(index) : restoreHealthBot(index));
 
 			display.appendChild(healthIcon);
 		} else {
       healthIcon.style.fontSize = healthFontSize[index];
 
-      healthIcon.addEventListener('mousedown', () => restoreHealth(index, topPlayer));
+      healthIcon.addEventListener('mousedown', () => topPlayer ? restoreHealthTop(index) : restoreHealthBot(index));
 
 			display.appendChild(healthIcon);
 		}
 	});
 }
 
-function restoreHealth(index, topPlayer) {
-  // const healthRevert = document.createElement('div');
-  // const revertConfirmMessage = document.createElement('h2');
-  // const confirmRevert = document.createElement('button');
-  // const cancelRevert = document.createElement('button');
+function restoreHealthTop(index) {
+  topHealthRevert.innerHTML = '';
 
-  const target = index + 1;
-  log({ target })
+  const message = document.createElement('h2');
+  const confirm = document.createElement('button');
+  const cancel = document.createElement('button');
 
-  function updateTop() {
-    topHealthValues = topHealthValues.splice(target);
-    topHealthRevert.style.visibility = 'hidden';
+  message.innerText = `Revert health to ${topHealthValues[index+1]}?`;
+
+  confirm.id = 'confirm-top-revert';
+  cancel.id = 'cancel-top-revert';
+
+  confirm.innerHTML = '<img src="./assets/check.png" alt="confirm-top">';
+  cancel.innerHTML = '<img src="./assets/cross.png" alt="cancel-top">';
+
+  confirm.addEventListener('mousedown', () => {
+    topHealthValues = topHealthValues.splice(index+1);
     updateHealthDisplay();
-  }
+    topHealthRevert.innerHTML = '';
+    topHealthRevert.classList.toggle('hidden');
+  });
 
-  function updateBot() {
-    botHealthRevertConfirmed++;
-    lastChangedBotIndex = target;
-    botHealthRevert.style.visibility = 'hidden';
-    botHealthConfirm.removeEventListener('mousedown', updateBot);
-    botHealthCancel.removeEventListener('mousedown', cancelBot);
-    if (botHealthRevertConfirmed === botHealthRevertCancelled && (botHealthRevertCancelled === 0 && botHealthRevertConfirmed !== 0)) {
-      log('confirm more than cancel');
-      botHealthValues = botHealthValues.splice(lastChangedBotIndex);
-      updateHealthDisplay();
-    } else {
-      log('cancel more');
-    }
-  }
+  cancel.addEventListener('mousedown', () => {
+    log('cancelling health revert');
+    topHealthRevert.innerHTML = '';
+    topHealthRevert.classList.toggle('hidden');
+  });
 
-  function cancelBot() {
-    botHealthRevertCancelled++;
-    botHealthRevert.style.visibility = 'hidden';
-    botHealthRevert.removeEventListener('mousedown', updateBot);
-    botHealthCancel.removeEventListener('mousedown', cancelBot);
-  }
+  topHealthRevert.appendChild(message);
+  topHealthRevert.appendChild(confirm);
+  topHealthRevert.appendChild(cancel);
 
-  if (topPlayer) {
-    topHealthRevert.children[0].innerText = `Revert player's health to: ${topHealthValues[target]}?`;
-    topHealthRevert.style.visibility = 'visible';
-    topHealthConfirm.addEventListener('mousedown', updateTop);
-    topHealthCancel.addEventListener('mousedown', () => topHealthRevert.style.visibility = 'hidden');
-  } else {
-    botHealthRevert.children[0].innerText = `Revert player's health to: ${botHealthValues[target]}?`;
-    botHealthRevert.style.visibility = 'visible';
-    botHealthConfirm.addEventListener('mousedown', updateBot);
-    botHealthCancel.addEventListener('mousedown', cancelBot);
-  }
+  topHealthRevert.classList.toggle('hidden');
+}
+
+function restoreHealthBot(index) {
+  botHealthRevert.innerHTML = '';
+
+  const message = document.createElement('h2');
+  const confirm = document.createElement('button');
+  const cancel = document.createElement('button');
+
+  message.innerText = `Revert health to ${botHealthValues[index+1]}?`;
+
+  confirm.id = 'confirm-bot-revert';
+  cancel.id = 'cancel-bot-revert';
+
+  confirm.innerHTML = '<img src="./assets/check.png" alt="confirm-bot">';
+  cancel.innerHTML = '<img src="./assets/cross.png" alt="cancel-bot">';
+
+  confirm.addEventListener('mousedown', () => {
+    botHealthValues = botHealthValues.splice(index+1);
+    updateHealthDisplay();
+    botHealthRevert.innerHTML = '';
+    botHealthRevert.classList.toggle('hidden');
+  });
+
+  cancel.addEventListener('mousedown', () => {
+    log('cancelling health revert');
+    botHealthRevert.innerHTML = '';
+    botHealthRevert.classList.toggle('hidden');
+  });
+
+  botHealthRevert.appendChild(message);
+  botHealthRevert.appendChild(confirm);
+  botHealthRevert.appendChild(cancel);
+
+  botHealthRevert.classList.toggle('hidden');
 }
 
 function resetGame(e) {
