@@ -4,14 +4,13 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta name="apple-mobile-web-app-capable" content="yes">
-	<link rel="preconnect" href="https://fonts.googleapis.com">
-	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link rel="apple-touch-icon" sizes="180x180" href="./assets/apple-touch-icon.png">
 	<link rel="icon" type="image/png" sizes="32x32" href="./assets/favicon-32x32.png">
 	<link rel="icon" type="image/png" sizes="16x16" href="./assets/favicon-16x16.png">
 	<link rel="manifest" href="/site.webmanifest">
-	<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
 	<link rel="stylesheet" href="./styles.css">
 	<title>MTG Life Tracker</title>
 </head>
@@ -20,14 +19,14 @@
 		<div id="top">
       <div id="top-health-slug">
         <p id="top-minus">-</p>
-				<p class="current-health" id="top-health">18</p>
+				<p class="current-health" id="top-health">0</p>
 				<p id="top-plus">+</p>
 			</div>
-			<div class="health-log" id="top-log">21 25 26 32 54</div>
+			<div class="health-log" id="top-log">0</div>
 		</div>
 
 		<div id="center">
-			<div id="reset"><i class="fa fa-refresh"></i></div>
+			<div id="reset"><img src="./assets/refresh.png" alt="reset game" width="100%"></div>
 			<div id="top-health-change">0</div>
 			<div id="bot-health-change">0</div>
 		</div>
@@ -42,15 +41,17 @@
 		</div>
 	</div>
 
-  <div id="top-health-confirm" class="hidden">
-    <!-- <h2>top health confirm revert?</h2>
-    <button id="confirm-top-revert"><img src="./assets/check.png" alt="confirm-top"></button>
-    <button id="cancel-top-revert"><img src="./assets/cross.png" alt="cancel-top"></button> -->
-  </div>
-  <div id="bot-health-confirm" class="hidden">
-    <!-- <h2>bot health confirm revert?</h2>
-    <button id="confirm-bot-revert"><img src="./assets/check.png" alt="confirm-bot"></button>
-    <button id="cancel-bot-revert"><img src="./assets/cross.png" alt="cancel-bot"></button> -->
+  <div id="top-health-confirm" class="hidden"></div>
+  <div id="bot-health-confirm" class="hidden"></div>
+
+  <div id="reset-confirm" class="hidden">
+    <button id="top-reset-confirm"><img src="./assets/check.png" alt="confirm-top-reset"></button>
+    <button id="top-reset-cancel"><img src="./assets/cross.png" alt="cancel-top-reset"></button>
+    <h2 id="top-reset-message">Reset the Game?</h2>
+
+    <h2 id="bot-reset-message">Reset the Game?</h2>
+    <button id="bot-reset-confirm"><img src="./assets/check.png" alt="confirm-bot-reset"></button>
+    <button id="bot-reset-cancel"><img src="./assets/cross.png" alt="cancel-bot-reset"></button>
   </div>
 
 	<script src="./main.js"></script>

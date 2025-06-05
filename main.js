@@ -23,6 +23,8 @@ let lastChangedTopIndex = 0;
 let lastChangedBotIndex = 0;
 let topUpdated = false;
 
+//* 1. create variables to track topResetConfirmed and topResetCancelled, same for bottom
+
 reset.addEventListener('mousedown', e => resetGame(e));
 
 topPlus.addEventListener('mousedown', e => addHealth(e, topHealthValues, true));
@@ -42,7 +44,7 @@ const topUpdateTimer = {
 				target.unshift(newHealth);
 
 				tempHealthTop = 0;
-				topHealthChange.style.color = '#2e2e2e';
+				topHealthChange.style.color = 'var(--dark)';
 				topHealthChange.innerText = 'placeholder';
 
 				updateHealthDisplay();
@@ -66,7 +68,7 @@ const botUpdateTimer = {
 				target.unshift(newHealth);
 
 				tempHealthBot = 0;
-				botHealthChange.style.color = '#2e2e2e';
+				botHealthChange.style.color = 'var(--dark)';
 				botHealthChange.innerText = 'placeholder';
 
 				updateHealthDisplay();
@@ -86,13 +88,13 @@ function updateHealthDisplay() {
 	if (topHealthValues.length > 1) {
 		replaceHistory(topHealthValues.slice(1), topHealthLog, true);
 	} else {
-		topHealthLog.innerHTML = `<span style="font-size: 30pt; color: #2e2e2e">20</span>`;
+		topHealthLog.innerHTML = `<span style="font-size: 30pt; color: var(--dark)">20</span>`;
 	}
 
 	if (botHealthValues.length > 1) {
 		replaceHistory(botHealthValues.slice(1), botHealthLog, false);
 	} else {
-		botHealthLog.innerHTML = `<span style="font-size: 30pt; color: #2e2e2e">20</span>`;
+		botHealthLog.innerHTML = `<span style="font-size: 30pt; color: var(--dark)">20</span>`;
 	}
 }
 
@@ -102,14 +104,14 @@ function addHealth(e, target, updateTop) {
 		if (tempHealthTop === 0) tempHealthTop = target[0];
 		tempHealthTop += 1;
     // let change = target[0] - tempHealthTop
-		topHealthChange.style.color = '#f3f3f3';
+		topHealthChange.style.color = 'var(--pink)';
     let change = tempHealthTop - target[0];
 		topHealthChange.innerText = `${change > 0 ? '+' : ''}${change}`;
 		topUpdateTimer.start(tempHealthTop, target);	
 	} else {
 		if (tempHealthBot === 0) tempHealthBot = target[0];
 		tempHealthBot += 1;
-		botHealthChange.style.color = '#f3f3f3';
+		botHealthChange.style.color = 'var(--pink)';
     let change = tempHealthBot - target[0];
 		botHealthChange.innerText = `${change > 0 ? '+' : ''}${change}`;
 		botUpdateTimer.start(tempHealthBot, target);
@@ -120,14 +122,14 @@ function subtractHealth(e, target, updateTop) {
 	if (updateTop) {
 		if (tempHealthTop === 0) tempHealthTop = target[0];
 		tempHealthTop -= 1;
-		topHealthChange.style.color = '#f3f3f3';
+		topHealthChange.style.color = 'var(--pink)';
     let change = tempHealthTop - target[0];
 		topHealthChange.innerText = `${change > 0 ? '+' : ''}${change}`;
 		topUpdateTimer.start(tempHealthTop, target);
 	} else {
 		if (tempHealthBot === 0) tempHealthBot = target[0];
 		tempHealthBot -= 1;
-		botHealthChange.style.color = '#f3f3f3';
+		botHealthChange.style.color = 'var(--pink)';
 		let change = tempHealthBot - target[0];
 		botHealthChange.innerText = `${change > 0 ? '+' : ''}${change}`;
 		botUpdateTimer.start(tempHealthBot, target);
@@ -230,10 +232,27 @@ function restoreHealthBot(index) {
   botHealthRevert.classList.toggle('hidden');
 }
 
-//? add a method for both players to need to confirm a game reset
-//! after resetting you cannot click previous health to revert
+//* add a method for both players to need to confirm a game reset
 function resetGame(e) {
 	e.preventDefault();
+
+  //* 2. add the buttons the the reset overlay, this will be the same process as used in the reversion
+
+  //* 3. each button will be responsible for updating either the confirm or cancel value, then closing the popup if both have cancelled, as well as emptying the innerHTML
+  //*    same will be applied for confirming a game reset
+
+  //* 4. only if both players confirm the reset choice will the game properly reset, to avoid one person misclicking
+
+  tempHealthTop = 0;
+  topHealthChange.style.color = 'var(--dark)';
+  topHealthChange.innerText = '0';
+
+  tempHealthBot = 0;
+  botHealthChange.style.color = 'var(--dark)';
+  botHealthChange.innerText = '0';
+
+  topUpdateTimer.cancel();
+  botUpdateTimer.cancel();
 
 	while (topHealthValues[0]) {
 		topHealthValues.pop();
