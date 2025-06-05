@@ -61,14 +61,6 @@ html, body {
 	height: 100%;
 }
 
-.rotated {
-	transform: rotate(180deg);
-	-webkit-transform: rotate(180deg);
-	-moz-transform: rotate(180deg);
-	-ms-transform: rotate(180deg);
-	-o-transform: rotate(180deg);
-}
-
 .current-health {
 	font-size: 48pt;
 	margin: auto;
@@ -123,8 +115,7 @@ html, body {
   grid-column: span 2;
 }
 
-#confirm-top-revert, #cancel-top-revert, #confirm-bot-revert, #cancel-bot-revert,  #top-reset-confirm, #top-reset-cancel, #bot-reset-confirm, #bot-reset-cancel
-{
+#confirm-top-revert, #cancel-top-revert, #confirm-bot-revert, #cancel-bot-revert,  #top-reset-confirm, #top-reset-cancel, #bot-reset-confirm, #bot-reset-cancel {
   margin: 10% 30% 30%;
 
   border: none;
@@ -133,7 +124,6 @@ html, body {
   background: transparent;
 }
 
-/* #confirm-top-revert img, #cancel-top-revert img, #confirm-bot-revert img, #cancel-bot-revert img, #top-reset-confirm img, #top-reset-cancel img, #bot-reset-confirm img, #bot-reset-cancel img */
 img {
   width: 100%;
   max-width: 55px;
@@ -162,6 +152,14 @@ img {
 
 .hidden {
   visibility: hidden;
+}
+
+.rotated {
+	transform: rotate(180deg);
+	-webkit-transform: rotate(180deg);
+	-moz-transform: rotate(180deg);
+	-ms-transform: rotate(180deg);
+	-o-transform: rotate(180deg);
 }
 
 .pacifico-regular {
