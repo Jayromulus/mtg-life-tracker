@@ -108,7 +108,7 @@ html, body {
   bottom: 0;
 }
 
-#top-health-confirm h2, #bot-health-confirm h2, #top-reset-message, #bot-reset-message {
+#top-health-confirm h2, #bot-health-confirm h2, #reset-confirm h2 {
   align-content: center;
   text-align: center;
   
