@@ -11,29 +11,12 @@ html, body {
 	width: 100vw;
 	overflow: hidden;
 
-	/* font-family: "Pacifico", cursive;
-	font-weight: 400;
- 	font-style: normal; */
-
   font-family: "Rubik", sans-serif;
   font-optical-sizing: auto;
   font-weight: 500;
   font-style: normal;
 
 	color: var(--pink);
-}
-
-.pacifico-regular {
-  font-family: "Pacifico", cursive;
-  font-weight: 400;
-  font-style: normal;
-}
-
-.rubik {
-  font-family: "Rubik", sans-serif;
-  font-optical-sizing: auto;
-  font-weight: 500;
-  font-style: normal;
 }
 
 #main {
@@ -78,7 +61,7 @@ html, body {
 	height: 100%;
 }
 
-#top, #top-health-change, #top-health-confirm, #top-reset-message, #top-reset-confirm, #top-reset-cancel {
+.rotated {
 	transform: rotate(180deg);
 	-webkit-transform: rotate(180deg);
 	-moz-transform: rotate(180deg);
@@ -107,17 +90,12 @@ html, body {
 	line-height: 100%;
 }
 
-.hidden {
-  visibility: hidden;
-}
-
 #top-health-confirm, #bot-health-confirm {
   height: 40%;
+  width: 100%;
 
   position: absolute;
   z-index: 2;
-  /* left: 10%;
-  right: 10%; */
 
   background-color: var(--dark);
   border-radius: 5px;
@@ -145,10 +123,6 @@ html, body {
   grid-column: span 2;
 }
 
-#top-health-confirm h2, #bot-health-confirm h2 {
-  margin: 20% 5% 5%;
-}
-
 #confirm-top-revert, #cancel-top-revert, #confirm-bot-revert, #cancel-bot-revert,  #top-reset-confirm, #top-reset-cancel, #bot-reset-confirm, #bot-reset-cancel
 {
   margin: 10% 30% 30%;
@@ -159,9 +133,10 @@ html, body {
   background: transparent;
 }
 
-#confirm-top-revert img, #cancel-top-revert img, #confirm-bot-revert img, #cancel-bot-revert img, #top-reset-confirm img, #top-reset-cancel img, #bot-reset-confirm img, #bot-reset-cancel img
-{
+/* #confirm-top-revert img, #cancel-top-revert img, #confirm-bot-revert img, #cancel-bot-revert img, #top-reset-confirm img, #top-reset-cancel img, #bot-reset-confirm img, #bot-reset-cancel img */
+img {
   width: 100%;
+  max-width: 55px;
 }
 
 #reset-confirm {
@@ -185,6 +160,19 @@ html, body {
   font-size: 16pt;
 }
 
-/* #top-reset-message, #bot-reset-message {
-  padding-top: 35%;
-} */
+.hidden {
+  visibility: hidden;
+}
+
+.pacifico-regular {
+  font-family: "Pacifico", cursive;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.rubik {
+  font-family: "Rubik", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 500;
+  font-style: normal;
+}
